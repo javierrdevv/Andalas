@@ -1,0 +1,186 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - link "wix.com" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e8]:
+        - button "tunjukkan tampilan desktop" [ref=e9] [cursor=pointer]
+        - separator [ref=e13]
+        - button "tunjukkan tampilkan seluler" [ref=e14] [cursor=pointer]
+    - generic [ref=e21]:
+      - paragraph [ref=e22]: Klik edit dan buat situs web milik sendiri yang luar biasa
+      - dialog [ref=e23] [cursor=pointer]: Baca Selengkapnya
+      - link "Edit situs ini" [ref=e24] [cursor=pointer]:
+        - /url: https://manage.wix.com/edit-template/from-intro?originTemplateId=80cf1426-35b8-4ffa-88fc-8e6e491ca122&editorSessionId=3482b848-645a-468e-963e-0f19eb75aea3
+  - iframe [active] [ref=e27]:
+    - generic [ref=f1e3]:
+      - region "top of page" [active]
+      - generic [ref=f1e10]:
+        - generic:
+          - link [ref=f1e12] [cursor=pointer]:
+            - /url: https://www.wix.com/templatesid/2418-mechanic-olis
+          - paragraph [ref=f1e22]:
+            - link "Bengkel Om Ali" [ref=f1e25] [cursor=pointer]:
+              - /url: https://www.wix.com/templatesid/2418-mechanic-olis
+        - generic:
+          - list "Bilah Sosial" [ref=f1e27]:
+            - listitem [ref=f1e28]:
+              - link "Facebook" [ref=f1e29] [cursor=pointer]:
+                - /url: https://www.facebook.com/wix
+                - img "Facebook" [ref=f1e30]
+            - listitem [ref=f1e31]:
+              - link "Instagram" [ref=f1e32] [cursor=pointer]:
+                - /url: https://www.instagram.com/wix
+                - img "Instagram" [ref=f1e33]
+            - listitem [ref=f1e34]:
+              - link "Yelp" [ref=f1e35] [cursor=pointer]:
+                - /url: https://www.yelp.com
+                - img "Yelp" [ref=f1e36]
+          - navigation "Situs" [ref=f1e38]:
+            - list [ref=f1e39]:
+              - listitem [ref=f1e40] [cursor=pointer]:
+                - link [ref=f1e41]:
+                  - /url: https://www.wix.com/templatesid/2418-mechanic-olis
+                  - paragraph [ref=f1e44]: Beranda
+              - listitem [ref=f1e45] [cursor=pointer]:
+                - link [ref=f1e46]:
+                  - /url: https://www.wix.com/templatesid/2418-mechanic-olis/tentang
+                  - paragraph [ref=f1e49]: Tentang
+              - listitem [ref=f1e50] [cursor=pointer]:
+                - link [ref=f1e51]:
+                  - /url: https://www.wix.com/templatesid/2418-mechanic-olis/layanan
+                  - paragraph [ref=f1e54]: Layanan
+              - listitem [ref=f1e55] [cursor=pointer]:
+                - link [ref=f1e56]:
+                  - /url: https://www.wix.com/templatesid/2418-mechanic-olis
+                  - paragraph [ref=f1e59]: Contact
+        - banner [ref=f1e60]
+        - main [ref=f1e67]:
+          - generic [ref=f1e72]:
+            - generic:
+              - generic:
+                - generic:
+                  - generic [ref=f1e92]:
+                    - generic:
+                      - generic:
+                        - paragraph [ref=f1e96]:
+                          - generic [ref=f1e97]: SELAMAT DATANG DI
+                        - heading "Bengkel Om Ali" [level=1] [ref=f1e99]
+                        - paragraph [ref=f1e102]:
+                          - generic [ref=f1e103]: Bengkel motor besar milik orang Jakarta asli
+                        - link "Reservasi Sekarang" [ref=f1e105] [cursor=pointer]:
+                          - /url: https://www.wix.com/templatesid/2418-mechanic-olis/layanan
+                  - generic [ref=f1e132]:
+                    - generic:
+                      - generic:
+                        - paragraph [ref=f1e136]:
+                          - generic [ref=f1e137]: LIHAT
+                        - heading "Layanan Kami" [level=2] [ref=f1e138]
+                        - paragraph [ref=f1e141]: Saya paragraf. Klik untuk menambah Anda dan mengedit saya. Mudah.
+                        - paragraph [ref=f1e148]:
+                          - generic [ref=f1e149]: Ganti oli dan filter
+                        - paragraph [ref=f1e156]: Pemasangan ban
+                        - paragraph [ref=f1e162]:
+                          - generic [ref=f1e163]: Servis lengkap
+                        - link "Lihat Semua Layanan" [ref=f1e165] [cursor=pointer]:
+                          - /url: https://www.wix.com/templatesid/2418-mechanic-olis/layanan
+                  - generic [ref=f1e167]:
+                    - generic:
+                      - generic:
+                        - heading "Tanggapan Pelanggan" [level=2] [ref=f1e181]
+                        - generic [ref=f1e188]:
+                          - generic:
+                            - generic:
+                              - paragraph [ref=f1e193]:
+                                - generic [ref=f1e194]: KAMI MENGGUNAKAN
+                              - heading "Suku Cadang dari Produsen Terbaik" [level=2] [ref=f1e196]
+                              - paragraph [ref=f1e199]:
+                                - generic [ref=f1e200]: Saya paragraf. Klik untuk menambah Anda dan mengedit saya. Mudah.
+                        - generic [ref=f1e205]:
+                          - paragraph [ref=f1e216]:
+                            - generic [ref=f1e217]: Mony's Helmets
+                          - paragraph [ref=f1e225]:
+                            - generic [ref=f1e226]: Fundop Tires
+                          - paragraph [ref=f1e242]:
+                            - generic [ref=f1e243]: Chopper TZ
+                          - paragraph [ref=f1e250]:
+                            - generic [ref=f1e251]: Hardwheel
+                        - generic [ref=f1e258]:
+                          - generic [ref=f1e259]:
+                            - generic:
+                              - generic:
+                                - paragraph [ref=f1e269]: Saya testimoni. Klik untuk edit saya dan tambah teks yang mengatakan kehebatan dan layanan Anda. Biarkan pelanggan bercerita pada teman mereka ttg kehebatan Anda.”
+                                - paragraph [ref=f1e270]:
+                                  - generic [ref=f1e271]: Jordi Ahmad
+                          - generic [ref=f1e272]:
+                            - generic:
+                              - generic:
+                                - paragraph [ref=f1e282]: Saya testimoni. Klik untuk edit saya dan tambah teks yang mengatakan kehebatan dan layanan Anda. Biarkan pelanggan bercerita pada teman mereka ttg kehebatan Anda.”
+                                - paragraph [ref=f1e283]:
+                                  - generic [ref=f1e284]: Lianty Alyani
+                          - generic [ref=f1e285]:
+                            - generic:
+                              - generic:
+                                - paragraph [ref=f1e295]: Saya testimoni. Klik untuk edit saya dan tambah teks yang mengatakan kehebatan dan layanan Anda. Biarkan pelanggan bercerita pada teman mereka ttg kehebatan Anda.”
+                                - paragraph [ref=f1e296]:
+                                  - generic [ref=f1e297]: Arfan Noor
+                  - generic [ref=f1e298]:
+                    - generic:
+                      - generic:
+                        - region "Kontak"
+        - iframe [ref=f1e313]:
+          - main [ref=f5e1]:
+            - button [ref=f5e3] [cursor=pointer]:
+              - heading "Ayo Ngobrol!" [level=2] [ref=f5e6]
+        - contentinfo [ref=f1e314]:
+          - generic [ref=f1e320]:
+            - generic:
+              - generic:
+                - heading "Hubungi Kami" [level=2] [ref=f1e330]
+                - generic [ref=f1e336]:
+                  - generic [ref=f1e337]:
+                    - generic:
+                      - generic:
+                        - heading "Jam Buka" [level=3] [ref=f1e341]
+                        - paragraph [ref=f1e344]: "Sen-Jum:"
+                        - paragraph [ref=f1e345]: 09.00 - 18.00
+                        - paragraph [ref=f1e346]: "Sab:"
+                        - paragraph [ref=f1e347]: 09.00 - 16.00
+                        - paragraph [ref=f1e348]: "Min:"
+                        - paragraph [ref=f1e349]: Tutup
+                  - generic [ref=f1e350]:
+                    - generic:
+                      - generic:
+                        - heading "Info" [level=3] [ref=f1e354]
+                        - paragraph [ref=f1e356]: "Telepon:"
+                        - paragraph [ref=f1e357]: 021-3867613
+                        - paragraph [ref=f1e358]: "Email:"
+                        - paragraph [ref=f1e359]:
+                          - link "info@situssaya.com" [ref=f1e361] [cursor=pointer]:
+                            - /url: mailto:info@situssaya.com
+                  - generic [ref=f1e362]:
+                    - generic:
+                      - generic:
+                        - heading "Lokasi" [level=3] [ref=f1e366]
+                        - generic:
+                          - paragraph [ref=f1e369]: Jl Taman Suropati, Menteng
+                          - paragraph [ref=f1e370]: Jakarta 10310, Indonesia
+                  - generic [ref=f1e371]:
+                    - generic:
+                      - generic:
+                        - heading "Harganya Berapa?" [level=3] [ref=f1e375]
+                        - button "Isi Formulir Ini" [ref=f1e378] [cursor=pointer]
+                - iframe [ref=f1e382]:
+                  
+                - paragraph [ref=f1e383]:
+                  - link "Kebijakan Privasi" [ref=f1e384] [cursor=pointer]:
+                    - /url: https://www.wix.com/templatesid/2418-mechanic-olis/kebijakan-privasi
+                - paragraph [ref=f1e387]:
+                  - link "Syarat & Ketentuan" [ref=f1e388] [cursor=pointer]:
+                    - /url: https://www.wix.com/templatesid/2418-mechanic-olis/syarat-ketentuan
+                - paragraph [ref=f1e391]:
+                  - generic [ref=f1e394]:
+                    - text: © 2035 oleh Bengkel Om Ali. Didukung dan dijamin oleh
+                    - link "Wix" [ref=f1e396] [cursor=pointer]:
+                      - /url: https://wix.com?utm_campaign=vir_created_with
+      - region "bottom of page"
