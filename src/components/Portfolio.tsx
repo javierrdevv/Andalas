@@ -1,15 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, X } from "lucide-react";
 import { PROJECTS_LIST, ProjectItem, PROFILE } from "@/data/welderData";
 
 export default function Portfolio() {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const pausedRef = useRef(false);
-  const resumeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     if (!selectedProject) return;
@@ -23,45 +20,6 @@ export default function Portfolio() {
       document.body.style.overflow = "";
     };
   }, [selectedProject]);
-
-  const pause = useCallback(() => {
-    pausedRef.current = true;
-    clearTimeout(resumeTimer.current);
-    resumeTimer.current = setTimeout(() => {
-      pausedRef.current = false;
-    }, 2500);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const SPEED = 0.35;
-    let raf: number;
-
-    const tick = () => {
-      if (!pausedRef.current && !selectedProject) {
-        el.scrollLeft += SPEED;
-        if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
-          el.scrollLeft = 0;
-        }
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-
-    const onInteract = () => pause();
-    el.addEventListener("touchstart", onInteract, { passive: true });
-    el.addEventListener("mousedown", onInteract);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      el.removeEventListener("touchstart", onInteract);
-      el.removeEventListener("mousedown", onInteract);
-      clearTimeout(resumeTimer.current);
-    };
-  }, [pause, selectedProject]);
 
   return (
     <section id="karya" className="py-14 md:py-28 bg-zinc-950">
@@ -80,9 +38,7 @@ export default function Portfolio() {
       {/* ── Mobile: auto-scroll carousel ── */}
       <div className="lg:hidden">
         <div
-          ref={scrollRef}
-          className="flex gap-3 overflow-x-auto px-4 pb-4 -mx-4"
-          style={{ scrollbarWidth: "none" }}
+          className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-4 -mx-4"
         >
           {PROJECTS_LIST.map((item) => (
             <button
