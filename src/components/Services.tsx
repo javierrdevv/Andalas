@@ -1,78 +1,161 @@
-import { services, type ServiceIcon } from "@/content";
+"use client";
 
-function Icon({ name }: { name: ServiceIcon }) {
-  const paths: Record<ServiceIcon, React.ReactNode> = {
-    fence: (
-      <>
-        <path d="M3 21V9l2-4 2 4v12M17 21V9l2-4 2 4v12M7 12h10M7 16h10" />
-        <path d="M3 21h18" />
-      </>
-    ),
-    canopy: (
-      <>
-        <path d="M3 11L12 4l9 7M5 11v8m14-8v8M3 19h18" />
-      </>
-    ),
-    railing: (
-      <>
-        <path d="M4 20V8l8-4 8 4v12M4 14h16M8 20v-6m4 6v-6m4 6v-6" />
-      </>
-    ),
-    beam: (
-      <>
-        <path d="M4 4h4v16H4zM16 4h4v16h-4zM8 9h8M8 15h8" />
-      </>
-    ),
-    stainless: (
-      <>
-        <path d="M6 3v6a6 6 0 0012 0V3M9 21l1-4h4l1 4" />
-      </>
-    ),
-    repair: (
-      <>
-        <path d="M14.7 6.3a4 4 0 00-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 005.4-5.4L15 12l-3-3z" />
-      </>
-    ),
-  };
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-8 w-8 text-orange-500"
-      aria-hidden
-    >
-      {paths[name]}
-    </svg>
-  );
-}
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import { SERVICES_LIST, PROFILE } from "@/data/welderData";
 
 export default function Services() {
+  const railRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = railRef.current;
+    if (!el) return;
+    let down = false;
+    let startX = 0;
+    let startLeft = 0;
+    let moved = 0;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
+      down = true;
+      moved = 0;
+      startX = e.clientX;
+      startLeft = el.scrollLeft;
+      el.setPointerCapture(e.pointerId);
+    };
+    const onMove = (e: PointerEvent) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      el.scrollLeft = startLeft - dx;
+    };
+    const onUp = () => {
+      down = false;
+    };
+    const onClickCapture = (e: MouseEvent) => {
+      if (moved > 8) {
+        e.preventDefault();
+        e.stopPropagation();
+        moved = 0;
+      }
+    };
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointercancel", onUp);
+    el.addEventListener("click", onClickCapture, true);
+    return () => {
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointercancel", onUp);
+      el.removeEventListener("click", onClickCapture, true);
+    };
+  }, []);
+
   return (
-    <section id="layanan" className="scroll-mt-20 border-b border-zinc-800">
-      <div className="mx-auto max-w-6xl px-4 py-20 md:py-28">
-        <p className="text-sm font-bold uppercase tracking-[0.3em] text-orange-500">
-          Layanan
+    <section id="layanan" className="py-20 md:py-28 bg-slate-50 border-b border-slate-200">
+      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12">
+        {/* Header */}
+        <div className="max-w-3xl mb-16">
+          <h2 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold tracking-tighter text-zinc-900 leading-[1.02]">
+            Layanan &amp;
+            <br />
+            Spesialisasi<span className="text-[#ff4a16]">.</span>
+          </h2>
+          <p className="mt-5 text-sm sm:text-base text-zinc-600 leading-relaxed">
+            Mulai dari konstruksi baja penahan beban hingga karya estetis
+            stainless steel berpresisi tinggi. Semua dikerjakan in-house di
+            workshop kami.
+          </p>
+        </div>
+
+        <p className="lg:hidden mb-4 text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-400">
+          Geser ke samping untuk melihat semua layanan →
         </p>
-        <h2 className="mt-2 text-3xl font-black tracking-tight md:text-4xl">
-          Apa yang Bisa Kami Kerjakan
-        </h2>
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => (
-            <div
-              key={s.title}
-              className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 transition hover:border-orange-500/60"
-            >
-              <Icon name={s.icon} />
-              <h3 className="mt-4 text-lg font-bold">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                {s.desc}
-              </p>
-            </div>
-          ))}
+
+        {/* Alternating case-study rows (desktop) / swipe carousel (mobile) */}
+        <div
+          ref={railRef}
+          className="flex cursor-grab active:cursor-grabbing gap-5 overflow-x-auto snap-x snap-proximity [overscroll-behavior-x:contain] pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:space-y-24 lg:overflow-visible lg:pb-0 lg:cursor-auto"
+        >
+          {SERVICES_LIST.map((service, idx) => {
+            const flipped = idx % 2 === 1;
+            return (
+              <article
+                key={service.id}
+                className="relative shrink-0 snap-start w-[66vw] max-w-[270px] h-[320px] overflow-hidden border border-zinc-200 lg:static lg:w-auto lg:max-w-none lg:h-auto lg:overflow-visible lg:border-0 lg:grid lg:gap-14 lg:grid-cols-2 lg:items-center"
+              >
+                {/* Photo */}
+                <div
+                  className={`absolute inset-0 overflow-hidden bg-zinc-200 group lg:relative lg:aspect-[4/3] ${
+                    flipped ? "lg:order-2" : ""
+                  }`}
+                >
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    draggable={false}
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04] select-none"
+                    sizes="(max-width: 1024px) 66vw, 50vw"
+                  />
+                  <span className="absolute top-0 left-0 bg-[#ff4a16] text-white font-mono text-sm font-bold px-3 py-1.5">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                {/* Copy */}
+                <div
+                  className={`absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-zinc-950/95 via-zinc-950/60 to-transparent px-4 pb-4 pt-16 text-left lg:static lg:bg-none lg:p-0 ${
+                    flipped ? "lg:order-1" : ""
+                  }`}
+                >
+                  <h3 className="text-base font-extrabold tracking-tight text-white leading-tight lg:text-zinc-900 sm:text-3xl xl:text-4xl">
+                    {service.title}
+                  </h3>
+                  <p className="mt-1 text-[12px] text-zinc-300 font-medium lg:text-[#ff4a16] sm:mt-2 sm:text-base">
+                    {service.tagline}
+                  </p>
+                  <p className="hidden lg:block mt-4 text-sm sm:text-[15px] text-zinc-600 leading-relaxed max-w-xl">
+                    {service.description}
+                  </p>
+
+                  <div className="hidden lg:block mt-6 space-y-1.5">
+                    <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-400">
+                      Material
+                    </p>
+                    <p className="text-sm font-medium text-zinc-800 leading-relaxed">
+                      {service.materials.join(" / ")}
+                    </p>
+                  </div>
+
+                  <p className="hidden lg:block mt-4 text-xs text-zinc-500">
+                    Aplikasi:{" "}
+                    <span className="font-medium text-zinc-900">
+                      {service.applications[0]}
+                    </span>
+                  </p>
+
+                  <a
+                    href={`https://wa.me/${PROFILE.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(
+                      service.title
+                    )}.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group/link mt-3 lg:mt-7 inline-flex items-center gap-2 sm:gap-3 cursor-pointer"
+                  >
+                    <span className="text-[10px] sm:text-xs font-mono font-semibold uppercase tracking-[0.18em] text-[#ff4a16] border-b-2 border-[#ff4a16] pb-0.5 group-hover/link:text-zinc-900 lg:group-hover/link:text-[#ff4a16] transition-colors">
+                      Tanya Layanan
+                    </span>
+                    <span className="w-6 h-6 sm:w-9 sm:h-9 rounded-full border border-zinc-300 flex items-center justify-center text-zinc-900 group-hover/link:bg-[#ff4a16] group-hover/link:border-[#ff4a16] group-hover/link:text-white transition-colors">
+                      <ArrowUpRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                    </span>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,26 +1,71 @@
-import { site } from "@/content";
+"use client";
+
+import React from "react";
+import { PROFILE } from "@/data/welderData";
 
 export default function Footer() {
   return (
-    <footer className="py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-sm text-zinc-400 sm:flex-row sm:justify-between">
-        <p>
-          © {new Date().getFullYear()} {site.name}. Semua hak dilindungi.
-        </p>
-        <ul className="flex gap-5">
-          {site.socials.map((s) => (
-            <li key={s.name}>
-              <a
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold hover:text-orange-400"
-              >
-                {s.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <footer className="border-t border-white/10 bg-zinc-950 text-xs text-zinc-400 font-mono">
+      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-10 md:py-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-7 md:gap-10">
+          {/* Brand */}
+          <div className="sm:col-span-2 md:col-span-5">
+            <p className="font-bold text-sm tracking-tight text-white">
+              {PROFILE.brand}
+            </p>
+            <p className="mt-1 leading-relaxed">
+              {PROFILE.role}. Melayani Kaliwungu, Kendal, Kota Semarang &
+              sekitarnya, bisa di workshop atau dipanggil ke lokasi.
+            </p>
+          </div>
+
+          {/* Address */}
+          <div className="sm:col-span-1 md:col-span-3">
+            <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 mb-2">
+              Alamat Bengkel &amp; Workshop
+            </p>
+            <p className="leading-relaxed">{PROFILE.address}</p>
+          </div>
+
+          {/* Phone / WA */}
+          <div className="sm:col-span-1 md:col-span-2">
+            <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 mb-2">
+              Telepon / WhatsApp
+            </p>
+            <a
+              href={`https://wa.me/${PROFILE.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block py-0.5 font-semibold hover:text-[#ff4a16] transition-colors"
+            >
+              {PROFILE.phone}
+            </a>
+            <p className="mt-0.5">(Danang)</p>
+          </div>
+
+          {/* Hours */}
+          <div className="sm:col-span-2 md:col-span-2">
+            <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 mb-2">
+              Jam Operasional
+            </p>
+            <p className="leading-relaxed">
+              {PROFILE.hours}
+              <br />
+              <span className="text-[#ff4a16]">{PROFILE.emergencyService}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 md:mt-10 pt-5 md:pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 sm:gap-x-7 font-semibold">
+            <a href="#karya" className="py-1.5 hover:text-[#ff4a16] transition-colors">Portofolio</a>
+            <a href="#layanan" className="py-1.5 hover:text-[#ff4a16] transition-colors">Layanan</a>
+            <a href="#standar" className="py-1.5 hover:text-[#ff4a16] transition-colors">Standar Las</a>
+            <a href="#estimasi" className="py-1.5 hover:text-[#ff4a16] transition-colors">Estimasi</a>
+            <a href="#kontak" className="py-1.5 hover:text-[#ff4a16] transition-colors">Kontak</a>
+          </div>
+          <p className="text-center sm:text-right">© {new Date().getFullYear()} {PROFILE.brand} · Bengkel Las Danang. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );

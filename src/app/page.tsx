@@ -1,23 +1,37 @@
-import Header from "@/components/Header";
+import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import Portfolio from "@/components/Portfolio";
+import Marquee from "@/components/Marquee";
 import Services from "@/components/Services";
-import About from "@/components/About";
+import WeldInspector from "@/components/WeldInspector";
+import WorkshopSpecs from "@/components/WorkshopSpecs";
+import CostEstimator from "@/components/CostEstimator";
+import ProcessTimeline from "@/components/ProcessTimeline";
 import Testimonials from "@/components/Testimonials";
-import Contact from "@/components/Contact";
+import FAQ from "@/components/FAQ";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export default function Home() {
   return (
-    <>
-      <Header />
-      <main>
+    <div className="min-h-screen bg-white text-zinc-900 flex flex-col font-sans selection:bg-zinc-900 selection:text-white">
+      <Navbar />
+      <main className="flex-1">
         <Hero />
+        <Portfolio />
+        <Marquee />
         <Services />
-        <About />
+        <WeldInspector />
+        <WorkshopSpecs />
+        <CostEstimator />
+        <ProcessTimeline />
         <Testimonials />
-        <Contact />
+        <FAQ />
+        <ContactSection />
       </main>
       <Footer />
-    </>
+      <FloatingWhatsApp />
+    </div>
   );
 }

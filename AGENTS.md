@@ -1,26 +1,33 @@
-# AGENTS.md
+# welder
 
-Situs company profile **satu halaman** untuk usaha jasa las. Next.js 15 (App Router) + TypeScript + Tailwind CSS v4, tanpa backend.
+Single-page Indonesian marketing site ("AndalLas · Bengkel Las Danang", `lang="id"`) built with Next.js 16 App Router + React 19 + Tailwind CSS v4. No backend: no API routes, no DB, no tests. Smooth scroll via `lenis`, icons via `lucide-react`.
 
-## Perintah
+## Commands
 
-```powershell
-npm run dev      # dev server di localhost:3000
-npm run build    # production build; SEKALIGUS typecheck & prerender statis (verifikasi utama repo ini)
-npm run start    # serve hasil build
-```
+- Dev: `npm run dev` · Build: `npm run build`
+- Lint: `npm run lint` (bare `eslint`, flat config) · Typecheck (no script): `npx tsc --noEmit`
+- Verify changes with build or `tsc --noEmit`; lint currently has pre-existing errors, don't treat those as yours.
 
-Tidak ada linter terpisah — `npm run build` adalah satu-satunya gerbang verifikasi.
+## Structure
 
-## Konvensi penting
+- One route: everything renders via `src/app/page.tsx` composing components from `src/components/`.
+- All site copy/data lives in `src/data/welderData.ts` (PROFILE, services, projects, testimonials, FAQ). Edit content there, not in components.
+- All components are client components (`"use client"`).
+- Path alias `@/*` → `src/*`.
 
-- **Semua konten bisnis** (nama usaha, tagline, layanan, testimoni, jam buka, kontak/WA, sosmed) ada di `src/content.ts`. Edit konten = edit satu file itu; komponen tidak boleh hardcode teks bisnis.
-- Situs one-page: satu route `/`, navigasi pakai anchor (`#layanan`, `#tentang`, `#testimoni`, `#kontak`). Section baru harus punya `id` + `scroll-mt-20`.
-- Satu-satunya client component adalah `Contact.tsx` (form penawaran, submit hanya menampilkan pesan sukses — belum ada backend). Semua komponen lain wajib server component.
-- Tanpa gambar eksternal: ikon = SVG inline, hero = CSS gradient. Foto asli menggantikan nanti.
-- Desain lengkap: `docs/superpowers/specs/2026-08-23-situs-jasa-las-onepage-design.md`.
+## Gotchas
 
-## Catatan
+- Tailwind v4 via PostCSS — no `tailwind.config.js`. Theme customization goes in CSS (`@theme`) in `src/app/globals.css`.
+- Remote `<Image>` hosts are whitelisted in `next.config.ts` (`images.unsplash.com` only). Adding another host requires updating `remotePatterns`.
+- All user-facing copy is Indonesian; match that language.
+- `CLAUDE.md` just includes this file — keep both in sync by only maintaining AGENTS.md.
 
-- Nilai di `content.ts` masih placeholder — user akan mengganti dengan data usaha asli.
-- Form kirim email = upgrade path via API route + Resend/SMTP saat diminta.
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
