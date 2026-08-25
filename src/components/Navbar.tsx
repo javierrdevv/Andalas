@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowUpRight, MapPin } from "lucide-react";
-import { PROFILE } from "@/data/welderData";
+import { useProfile } from "@/lib/useSupabaseData";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const profile = useProfile();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -32,7 +33,7 @@ export default function Navbar() {
     { label: "Portofolio", href: "#karya" },
     { label: "Layanan", href: "#layanan" },
     { label: "Standar Kualitas", href: "#standar" },
-    { label: "Estimasi Biaya", href: "#estimasi" },
+    { label: "Estimasi Biaya", href: "/kalkulator" },
     { label: "FAQ", href: "#faq" },
     { label: "Kontak", href: "#kontak" },
   ];
@@ -54,7 +55,7 @@ export default function Navbar() {
             </div>
             <div>
               <span className="font-bold tracking-tight text-slate-900 text-base">
-                AndalLas
+                Andal Las
               </span>
               <span className="hidden sm:inline text-xs text-slate-500 ml-2 font-mono">
                 / Fabrikasi Logam
@@ -78,7 +79,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <a
-              href={`https://wa.me/${PROFILE.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20konsultasi%20jasa%20las%20fabrikasi.`}
+              href={`https://wa.me/${profile.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20konsultasi%20jasa%20las%20fabrikasi.`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-sm font-semibold bg-slate-900 text-white px-4 py-2 rounded-md hover:bg-slate-800 transition-colors"
@@ -121,7 +122,7 @@ export default function Navbar() {
                   AL
                 </div>
                 <span className="font-bold tracking-tight text-slate-900 text-sm">
-                  AndalLas
+                Andal Las
                 </span>
               </Link>
               <button
@@ -153,7 +154,7 @@ export default function Navbar() {
             {/* Bottom CTA */}
             <div className="px-5 pb-5 pt-1 space-y-3">
               <a
-                href={`https://wa.me/${PROFILE.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20konsultasi%20jasa%20las%20fabrikasi.`}
+                href={`https://wa.me/${profile.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20konsultasi%20jasa%20las%20fabrikasi.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#ff4a16] text-white px-5 py-3 text-sm font-bold hover:bg-[#ff6030] transition-colors"
@@ -163,7 +164,7 @@ export default function Navbar() {
               </a>
               <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400 font-mono">
                 <MapPin className="w-3 h-3" />
-                {PROFILE.location}
+                {profile.location}
               </div>
             </div>
           </div>

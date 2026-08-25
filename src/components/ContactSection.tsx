@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, MapPin, MessageSquare } from "lucide-react";
-import { PROFILE } from "@/data/welderData";
+import { ArrowRight, MapPin } from "lucide-react";
+import { useProfile } from "@/lib/useSupabaseData";
 
 export default function ContactSection() {
+  const profile = useProfile();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -25,7 +26,7 @@ export default function ContactSection() {
 
 Mohon informasi jadwal survey & estimasinya. Terima kasih.`;
 
-    window.open(`https://wa.me/${PROFILE.whatsapp}?text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://wa.me/${profile.whatsapp}?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   return (
@@ -35,10 +36,6 @@ Mohon informasi jadwal survey & estimasinya. Terima kasih.`;
           {/* Left Info */}
           <div className="lg:col-span-5 space-y-5 md:space-y-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-orange-50 border border-orange-200 text-xs text-orange-700 font-bold uppercase tracking-wider mb-2">
-                <MessageSquare className="w-3.5 h-3.5 text-orange-600" />
-                KONTAK & LOKASI
-              </div>
               <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900">
                 Mulai konsultasikan proyek Anda hari ini
               </h2>
@@ -51,9 +48,9 @@ Mohon informasi jadwal survey & estimasinya. Terima kasih.`;
             <div className="pt-1 md:pt-2">
               <div className="border border-slate-200 overflow-hidden bg-zinc-100">
                 <iframe
-                  title="Lokasi Bengkel AndalLas di Google Maps"
+                  title="Lokasi Bengkel Andal Las di Google Maps"
                   src={`https://www.google.com/maps?q=${encodeURIComponent(
-                    PROFILE.address
+                    profile.address
                   )}&z=16&output=embed&hl=id`}
                   className="w-full h-[200px] sm:h-[260px] lg:h-[320px] grayscale hover:grayscale-0 transition-[filter] duration-300"
                   loading="lazy"

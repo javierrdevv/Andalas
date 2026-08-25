@@ -37,8 +37,8 @@ export interface FaqItem {
 
 export const PROFILE = {
   name: "Danang",
-  brand: "AndalLas",
-  role: "Tukang Las Universal: Kanopi, Teralis, Gerbang, Rak & Custom",
+  brand: "Andal Las",
+  role: "Melayani Berbagai Pengelasan, Custom Kendaraan, Pengecatan & Lainnya",
   location: "Kaliwungu, Kab. Semarang & Melayani Panggilan Sekitarnya",
   address:
     "Jl. Kebatan, RT.02/RW.09, Gender Kidul, Kradenan, Kec. Kaliwungu, Kabupaten Semarang, Jawa Tengah 50578",

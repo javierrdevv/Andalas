@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Settings } from "lucide-react";
 
 const STEPS = [
   {
@@ -31,29 +30,54 @@ export default function ProcessTimeline() {
     <section className="py-20 md:py-28 bg-slate-50 border-b border-slate-200">
       <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12">
         <div className="max-w-2xl mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-orange-50 border border-orange-200 text-xs text-orange-700 font-bold uppercase tracking-wider mb-2">
-            <Settings className="w-3.5 h-3.5 text-orange-600" />
-            ALUR KERJA
-          </div>
+          <p className="flex items-center gap-3 text-[11px] sm:text-xs font-mono font-semibold uppercase tracking-[0.2em] text-zinc-500 mb-5">
+            <span className="inline-block w-8 h-px bg-[#ff4a16]" />
+            Alur Pengerjaan
+          </p>
           <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900">
             Tahapan pengerjaan dari sketsa hingga terpasang
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6">
+        {/* Mobile: vertical timeline */}
+        <div className="lg:hidden relative pl-10">
+          {/* Garis vertikal kiri */}
+          <div className="absolute left-[11px] top-2 bottom-2 w-px bg-slate-300" />
+
+          <div className="space-y-8">
+            {STEPS.map((st) => (
+              <div key={st.step} className="relative">
+                {/* Dot */}
+                <span className="absolute -left-10 top-0.5 flex items-center justify-center w-5 h-5 rounded-full bg-[#ff4a16] text-white text-[9px] font-black font-mono">
+                  {st.step}
+                </span>
+
+                <h3 className="text-sm font-bold text-slate-900 leading-snug">
+                  {st.title}
+                </h3>
+                <p className="mt-1 text-xs text-slate-500 leading-relaxed">
+                  {st.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: 4-col grid — unchanged */}
+        <div className="hidden lg:grid grid-cols-4 gap-6">
           {STEPS.map((st) => (
             <div
               key={st.step}
-              className="p-3 sm:p-6 rounded-lg bg-white border border-slate-200 shadow-2xs flex flex-col justify-between hover:border-orange-300 transition-colors"
+              className="p-6 rounded-lg bg-white border border-slate-200 shadow-2xs flex flex-col justify-between hover:border-orange-300 transition-colors"
             >
               <div>
-                <span className="text-lg sm:text-3xl font-black font-mono text-orange-600 mb-1.5 sm:mb-3 block">
+                <span className="text-3xl font-black font-mono text-orange-600 mb-3 block">
                   {st.step}
                 </span>
-                <h3 className="text-xs sm:text-base font-bold text-slate-900 mb-1 sm:mb-2 leading-snug">
+                <h3 className="text-base font-bold text-slate-900 mb-2 leading-snug">
                   {st.title}
                 </h3>
-                <p className="text-[10px] sm:text-sm text-slate-600 leading-relaxed line-clamp-5 sm:line-clamp-none">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   {st.desc}
                 </p>
               </div>

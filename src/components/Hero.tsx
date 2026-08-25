@@ -1,23 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { PROFILE } from "@/data/welderData";
+import { useProfile, useSettings } from "@/lib/useSupabaseData";
+import { PLACEHOLDER_IMAGES } from "@/lib/placeholders";
 
 export default function Hero() {
+  const profile = useProfile();
+  const settings = useSettings();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 639px)");
+    setIsMobile(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  const brightness = isMobile ? (settings.hero_brightness_mobile ?? 25) : (settings.hero_brightness ?? 35);
+  const gradient = isMobile ? (settings.hero_gradient_mobile ?? 80) : (settings.hero_gradient ?? 70);
+
   return (
     <section className="relative bg-zinc-950 overflow-hidden">
       <div className="absolute inset-0" aria-hidden="true">
         <Image
-          src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1600&q=80"
+          src={settings.hero_image || PLACEHOLDER_IMAGES.hero}
           alt=""
           fill
           priority
-          className="object-cover object-center brightness-[.35]"
+          className="object-cover object-center"
+          style={{ filter: `brightness(${brightness / 100})` }}
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/70 to-zinc-950/20" />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950 to-zinc-950/20"
+          style={{ opacity: gradient / 100 }}
+        />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-zinc-950 to-transparent" />
       </div>
 
@@ -46,7 +66,7 @@ export default function Hero() {
 
         <div className="mt-8 sm:mt-16 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
           <a
-            href={`https://wa.me/${PROFILE.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20mau%20konsultasi%20pembuatan%20las%20besi%20/%20stainless.`}
+            href={`https://wa.me/${profile.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20mau%20konsultasi%20pembuatan%20las%20besi%20/%20stainless.`}
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-[#ff4a16] text-white px-6 py-3.5 text-sm font-bold hover:bg-[#ff6030] transition-colors cursor-pointer"
@@ -64,7 +84,7 @@ export default function Hero() {
 
         <p className="mt-12 text-xs font-mono uppercase tracking-wider text-zinc-400">
           Workshop &amp; Las Panggilan ·{" "}
-          <span className="text-white">Kaliwungu, Kab. Semarang</span>
+          <span className="text-white">{profile.location}</span>
         </p>
       </div>
     </section>

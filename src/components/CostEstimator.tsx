@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { PROFILE } from "@/data/welderData";
+import { useProfile } from "@/lib/useSupabaseData";
 
 interface ProjectOption {
   id: string;
@@ -30,6 +30,7 @@ const MATERIALS = [
 ];
 
 export default function CostEstimator() {
+  const profile = useProfile();
   const [selectedProject, setSelectedProject] = useState("kanopi");
   const [qty, setQty] = useState(15);
   const [material, setMaterial] = useState("galvanis");
@@ -64,7 +65,7 @@ Perkiraan Range Biaya: ${formatRupiah(low)} - ${formatRupiah(high)}
 
 Boleh info jadwal survey atau konsultasi lebih lanjut? Terima kasih.`;
 
-    return `https://wa.me/${PROFILE.whatsapp}?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/${profile.whatsapp}?text=${encodeURIComponent(text)}`;
   };
 
   return (

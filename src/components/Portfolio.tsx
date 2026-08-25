@@ -3,10 +3,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, X } from "lucide-react";
-import { PROJECTS_LIST, ProjectItem, PROFILE } from "@/data/welderData";
+import { useProjects, useProfile, ProjectData } from "@/lib/useSupabaseData";
+import { PLACEHOLDER_IMAGES } from "@/lib/placeholders";
 
 export default function Portfolio() {
-  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const projects = useProjects();
+  const profile = useProfile();
   const scrollRef = useRef<HTMLDivElement>(null);
   const pausedRef = useRef(false);
   const resumeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -63,6 +66,8 @@ export default function Portfolio() {
     };
   }, [pause, selectedProject]);
 
+  if (projects.length === 0) return null;
+
   return (
     <section id="karya" className="py-14 md:py-28 bg-zinc-950">
       {/* Header */}
@@ -83,7 +88,7 @@ export default function Portfolio() {
           ref={scrollRef}
           className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-4 -mx-4"
         >
-          {PROJECTS_LIST.map((item) => (
+          {projects.map((item) => (
             <button
               key={item.id}
               type="button"
@@ -93,7 +98,7 @@ export default function Portfolio() {
               style={{ height: 240 }}
             >
               <Image
-                src={item.image}
+                src={item.image || PLACEHOLDER_IMAGES.project}
                 alt={item.title}
                 fill
                 className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.06]"
@@ -103,7 +108,7 @@ export default function Portfolio() {
               {/* Info strip */}
               <span className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-zinc-950/95 via-zinc-950/60 to-transparent px-4 pb-3.5 pt-12 text-left">
                 <span className="block text-[10px] font-mono uppercase tracking-[0.18em] text-[#ff4a16]">
-                  {item.categoryLabel} · {item.location}
+                  {item.category_label} · {item.location}
                 </span>
                 <span className="mt-1 block text-sm text-white font-extrabold leading-tight tracking-tight">
                   {item.title}
@@ -116,7 +121,7 @@ export default function Portfolio() {
 
       {/* ── Desktop: grid wall ── */}
       <div className="hidden lg:grid grid-cols-3">
-        {PROJECTS_LIST.map((item) => (
+        {projects.map((item) => (
           <button
             key={item.id}
             type="button"
@@ -125,7 +130,7 @@ export default function Portfolio() {
             className="group relative block overflow-hidden bg-zinc-900 cursor-pointer h-[240px] focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-[#ff4a16]"
           >
             <Image
-              src={item.image}
+              src={item.image || PLACEHOLDER_IMAGES.project}
               alt={item.title}
               fill
               className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.06]"
@@ -135,7 +140,7 @@ export default function Portfolio() {
             {/* Info strip */}
             <span className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-zinc-950/95 via-zinc-950/60 to-transparent px-4 pb-3.5 pt-12 text-left">
               <span className="block text-[10px] font-mono uppercase tracking-[0.18em] text-[#ff4a16]">
-                {item.categoryLabel} · {item.location}
+                {item.category_label} · {item.location}
               </span>
               <span className="mt-1 block text-white font-extrabold leading-tight tracking-tight text-xl">
                 {item.title}
@@ -160,7 +165,7 @@ export default function Portfolio() {
           >
             <div className="relative aspect-[16/9] w-full bg-zinc-900">
               <Image
-                src={selectedProject.image}
+                src={selectedProject.image || PLACEHOLDER_IMAGES.project}
                 alt={selectedProject.title}
                 fill
                 className="object-cover"
@@ -177,7 +182,7 @@ export default function Portfolio() {
               </button>
               <div className="absolute bottom-4 left-4 right-4 sm:left-7 sm:right-7">
                 <span className="text-[10px] sm:text-xs font-mono font-medium px-2 py-0.5 bg-[#ff4a16] text-white">
-                  {selectedProject.categoryLabel} • Tahun {selectedProject.year}
+                  {selectedProject.category_label} • Tahun {selectedProject.year}
                 </span>
                 <h3 className="text-lg sm:text-3xl font-bold text-white mt-2 sm:mt-3 tracking-tight">
                   {selectedProject.title}
@@ -210,7 +215,7 @@ export default function Portfolio() {
                   Tertarik membuat proyek serupa?
                 </span>
                 <a
-                  href={`https://wa.me/${PROFILE.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20dengan%20proyek%20${encodeURIComponent(
+                  href={`https://wa.me/${profile.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20dengan%20proyek%20${encodeURIComponent(
                     selectedProject.title
                   )}.`}
                   target="_blank"

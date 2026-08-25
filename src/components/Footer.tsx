@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
-import { PROFILE } from "@/data/welderData";
+import { useProfile } from "@/lib/useSupabaseData";
 
 export default function Footer() {
+  const profile = useProfile();
+
   return (
     <footer className="border-t border-white/10 bg-zinc-950 text-xs text-zinc-400 font-mono">
       <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-10 md:py-14">
@@ -11,10 +13,10 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 md:col-span-5">
             <p className="font-bold text-sm tracking-tight text-white">
-              {PROFILE.brand}
+              {profile.brand}
             </p>
             <p className="mt-1 leading-relaxed">
-              {PROFILE.role}. Melayani Kaliwungu, Kendal, Kota Semarang &
+              {profile.role}. Melayani Kaliwungu, Kendal, Kota Semarang &
               sekitarnya, bisa di workshop atau dipanggil ke lokasi.
             </p>
           </div>
@@ -24,7 +26,7 @@ export default function Footer() {
             <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-zinc-500 mb-2">
               Alamat Bengkel &amp; Workshop
             </p>
-            <p className="leading-relaxed">{PROFILE.address}</p>
+            <p className="leading-relaxed">{profile.address}</p>
           </div>
 
           {/* Phone / WA */}
@@ -33,12 +35,12 @@ export default function Footer() {
               Telepon / WhatsApp
             </p>
             <a
-              href={`https://wa.me/${PROFILE.whatsapp}`}
+              href={`https://wa.me/${profile.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="block py-0.5 font-semibold hover:text-[#ff4a16] transition-colors"
             >
-              {PROFILE.phone}
+              {profile.phone}
             </a>
             <p className="mt-0.5">(Danang)</p>
           </div>
@@ -49,9 +51,7 @@ export default function Footer() {
               Jam Operasional
             </p>
             <p className="leading-relaxed">
-              {PROFILE.hours}
-              <br />
-              <span className="text-[#ff4a16]">{PROFILE.emergencyService}</span>
+              {profile.hours}
             </p>
           </div>
         </div>
@@ -61,10 +61,10 @@ export default function Footer() {
             <a href="#karya" className="py-1.5 hover:text-[#ff4a16] transition-colors">Portofolio</a>
             <a href="#layanan" className="py-1.5 hover:text-[#ff4a16] transition-colors">Layanan</a>
             <a href="#standar" className="py-1.5 hover:text-[#ff4a16] transition-colors">Standar Las</a>
-            <a href="#estimasi" className="py-1.5 hover:text-[#ff4a16] transition-colors">Estimasi</a>
+            <a href="/kalkulator" className="py-1.5 hover:text-[#ff4a16] transition-colors">Estimasi</a>
             <a href="#kontak" className="py-1.5 hover:text-[#ff4a16] transition-colors">Kontak</a>
           </div>
-          <p className="text-center sm:text-right">© {new Date().getFullYear()} {PROFILE.brand} · Bengkel Las Danang. All rights reserved.</p>
+          <p className="text-center sm:text-right">© {new Date().getFullYear()} {profile.brand} · Bengkel Las Danang. All rights reserved.</p>
         </div>
       </div>
     </footer>

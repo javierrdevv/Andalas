@@ -2,12 +2,16 @@
 
 import React from "react";
 import Image from "next/image";
-import { PROFILE } from "@/data/welderData";
+import { useProfile, useSettings } from "@/lib/useSupabaseData";
+import { PLACEHOLDER_IMAGES } from "@/lib/placeholders";
 
 const SCREW =
   "absolute z-10 w-2 h-2 rounded-full border-[1.5px] border-zinc-500 bg-zinc-300";
 
 export default function WorkshopSpecs() {
+  const profile = useProfile();
+  const settings = useSettings();
+
   return (
     <section
       id="tentang"
@@ -22,16 +26,16 @@ export default function WorkshopSpecs() {
 
           <header className="border-b-2 border-zinc-900 bg-zinc-950 pl-7 pr-5 sm:pl-10 sm:pr-8 py-2.5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.18em]">
             <span className="text-zinc-400 truncate sm:hidden">
-              {PROFILE.brand}
+              {profile.brand}
             </span>
             <span className="text-zinc-400 truncate hidden sm:inline">
-              {PROFILE.brand} · Bengkel Las &amp; Fabrikasi Besi
+              {profile.brand} · Bengkel Las &amp; Fabrikasi Besi
             </span>
             <span className="text-zinc-600 hidden md:block">
               Kaliwungu · Kab. Semarang
             </span>
             <span className="text-[#ff4a16] shrink-0">
-              No. Plat AL-{PROFILE.completedProjects}
+              No. Plat AL-{profile.completed_projects}
             </span>
           </header>
 
@@ -39,15 +43,15 @@ export default function WorkshopSpecs() {
             <figure className="lg:col-span-5 border-b-2 lg:border-b-0 lg:border-r-2 border-zinc-900 flex flex-col">
               <div className="relative aspect-[16/10] lg:aspect-auto lg:flex-1 lg:min-h-[420px] overflow-hidden bg-zinc-200">
                 <Image
-                  src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"
-                  alt={`${PROFILE.name}, pemilik bengkel las ${PROFILE.brand}, sedang mengelas di workshop`}
+                  src={settings.about_image || PLACEHOLDER_IMAGES.about}
+                  alt={`${profile.name}, pemilik bengkel las ${profile.brand}, sedang mengelas di workshop`}
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 40vw"
                 />
               </div>
               <figcaption className="px-5 py-3 flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500 border-t-2 border-zinc-900">
-                <span>{PROFILE.name} · Pemilik &amp; Tukang Las</span>
+                <span>{profile.name} · Pemilik &amp; Tukang Las</span>
                 <span
                   aria-hidden="true"
                   className="inline-block w-6 h-px bg-[#ff4a16]"
@@ -84,7 +88,7 @@ export default function WorkshopSpecs() {
               <dl className="mt-8 lg:mt-auto lg:pt-8 grid grid-cols-2 border-t-2 border-zinc-900">
                 <div className="pt-4 pr-6">
                   <dt className="text-3xl sm:text-4xl font-extrabold tracking-tighter text-zinc-900 leading-none">
-                    {PROFILE.completedProjects}+
+                    {profile.completed_projects}+
                   </dt>
                   <dd className="mt-2 text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-500">
                     Proyek selesai
@@ -92,7 +96,7 @@ export default function WorkshopSpecs() {
                 </div>
                 <div className="pt-4 pl-6 border-l-2 border-zinc-900">
                   <dt className="text-3xl sm:text-4xl font-extrabold tracking-tighter text-[#ff4a16] leading-none">
-                    {PROFILE.experienceYears}+
+                    {profile.experience_years}+
                   </dt>
                   <dd className="mt-2 text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-500">
                     Tahun pengalaman
@@ -108,7 +112,7 @@ export default function WorkshopSpecs() {
                 Layanan
               </p>
               <p className="mt-1.5 text-sm text-zinc-800">
-                <span className="font-bold">Tukang Las Universal</span>:
+                <span className="font-bold">{profile.brand}</span>:
                 kanopi, teralis, gerbang, rak, custom kendaraan &amp;
                 pengecatan
               </p>
@@ -118,17 +122,14 @@ export default function WorkshopSpecs() {
                 Jam Operasional
               </p>
               <p className="mt-1.5 text-sm text-zinc-800 font-bold">
-                {PROFILE.hours}
-              </p>
-              <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.18em] text-[#ff4a16]">
-                {PROFILE.emergencyService}
+                {profile.hours}
               </p>
             </div>
             <div className="px-5 py-4">
               <p className="text-[10px] font-mono uppercase tracking-[0.18em] text-zinc-400">
                 Lokasi Workshop
               </p>
-              <p className="mt-1.5 text-sm text-zinc-800">{PROFILE.address}</p>
+              <p className="mt-1.5 text-sm text-zinc-800">{profile.address}</p>
             </div>
           </footer>
         </div>

@@ -1,9 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { X } from "lucide-react";
 import { WELD_COMPARISON } from "@/data/welderData";
 
 export default function WeldInspector() {
+  const [active, setActive] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (active === null) return;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, [active]);
+
   return (
     <section id="standar" className="py-20 md:py-28 bg-white border-b border-slate-200">
       <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12">
@@ -84,24 +93,66 @@ export default function WeldInspector() {
           </div>
         </div>
 
-        {/* Mobile: readable criteria breakdown */}
-        <ul className="mt-8 sm:hidden space-y-6">
-          {WELD_COMPARISON.rows.map((row) => (
+        {/* Mobile: tappable criteria → popup */}
+        <ul className="mt-8 sm:hidden space-y-3">
+          {WELD_COMPARISON.rows.map((row, i) => (
             <li key={row.criterion}>
-              <p className="text-[9px] font-mono uppercase tracking-[0.18em] text-zinc-400">
-                {row.criterion}
-              </p>
-              <p className="mt-2 flex gap-2 text-xs leading-relaxed text-zinc-500">
-                <span className="shrink-0" aria-hidden>✕</span>
-                {row.bad}
-              </p>
-              <p className="mt-1 flex gap-2 text-xs font-medium leading-relaxed text-zinc-900">
-                <span className="shrink-0 text-[#ff4a16]" aria-hidden>✓</span>
-                {row.good}
-              </p>
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                className="w-full text-left px-4 py-3.5 bg-slate-50 border border-slate-200 flex items-center justify-between hover:border-orange-300 transition-colors cursor-pointer"
+              >
+                <span className="text-xs font-bold text-slate-900">{row.criterion}</span>
+                <span className="text-[10px] font-mono text-zinc-400">→</span>
+              </button>
             </li>
           ))}
         </ul>
+
+        {/* Popup modal */}
+        {active !== null && (
+          <div
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-6"
+            onClick={() => setActive(null)}
+          >
+            <div
+              className="bg-white w-full sm:max-w-lg sm:rounded-lg overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+                <h3 className="text-sm font-bold text-slate-900">
+                  {WELD_COMPARISON.rows[active].criterion}
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setActive(null)}
+                  className="p-1 text-zinc-400 hover:text-slate-900 transition-colors cursor-pointer"
+                  aria-label="Tutup"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="px-5 py-5 space-y-4">
+                <div className="p-4 bg-red-50 border border-red-100">
+                  <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-red-400 mb-1.5">
+                    Las Asal-Asalan
+                  </p>
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    {WELD_COMPARISON.rows[active].bad}
+                  </p>
+                </div>
+                <div className="p-4 bg-[#ff4a16]/[0.05] border border-[#ff4a16]/20">
+                  <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-[#ff4a16] mb-1.5">
+                    Standar Danang
+                  </p>
+                  <p className="text-sm font-medium text-slate-900 leading-relaxed">
+                    {WELD_COMPARISON.rows[active].good}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

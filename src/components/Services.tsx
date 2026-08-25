@@ -3,10 +3,13 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { SERVICES_LIST, PROFILE } from "@/data/welderData";
+import { useServices, useProfile } from "@/lib/useSupabaseData";
+import { PLACEHOLDER_IMAGES } from "@/lib/placeholders";
 
 export default function Services() {
   const railRef = useRef<HTMLDivElement>(null);
+  const services = useServices();
+  const profile = useProfile();
 
   useEffect(() => {
     const el = railRef.current;
@@ -53,6 +56,8 @@ export default function Services() {
     };
   }, []);
 
+  if (services.length === 0) return null;
+
   return (
     <section id="layanan" className="py-20 md:py-28 bg-slate-50 border-b border-slate-200">
       <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12">
@@ -79,8 +84,9 @@ export default function Services() {
           ref={railRef}
           className="flex cursor-grab active:cursor-grabbing gap-5 overflow-x-auto snap-x snap-proximity [overscroll-behavior-x:contain] pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:space-y-24 lg:overflow-visible lg:pb-0 lg:cursor-auto"
         >
-          {SERVICES_LIST.map((service, idx) => {
+          {services.map((service, idx) => {
             const flipped = idx % 2 === 1;
+            const img = service.image || PLACEHOLDER_IMAGES.service;
             return (
               <article
                 key={service.id}
@@ -93,7 +99,7 @@ export default function Services() {
                   }`}
                 >
                   <Image
-                    src={service.image}
+                    src={img}
                     alt={service.title}
                     fill
                     draggable={false}
@@ -126,19 +132,19 @@ export default function Services() {
                       Material
                     </p>
                     <p className="text-sm font-medium text-zinc-800 leading-relaxed">
-                      {service.materials.join(" / ")}
+                      {(service.materials || []).join(" / ")}
                     </p>
                   </div>
 
                   <p className="hidden lg:block mt-4 text-xs text-zinc-500">
                     Aplikasi:{" "}
                     <span className="font-medium text-zinc-900">
-                      {service.applications[0]}
+                      {(service.applications || [])[0]}
                     </span>
                   </p>
 
                   <a
-                    href={`https://wa.me/${PROFILE.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(
+                    href={`https://wa.me/${profile.whatsapp}?text=Halo%20Mas%20Danang,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(
                       service.title
                     )}.`}
                     target="_blank"
