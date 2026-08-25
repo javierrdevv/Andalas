@@ -81,7 +81,7 @@ export default function Portfolio() {
       <div className="lg:hidden">
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 pb-4 -mx-4"
+          className="flex gap-3 overflow-x-auto px-4 pb-4 -mx-4"
           style={{ scrollbarWidth: "none" }}
         >
           {PROJECTS_LIST.map((item) => (
@@ -90,7 +90,7 @@ export default function Portfolio() {
               type="button"
               onClick={() => setSelectedProject(item)}
               aria-label={`Lihat detail ${item.title}`}
-              className="group snap-start shrink-0 w-[75vw] relative block overflow-hidden bg-zinc-900 cursor-pointer focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-[#ff4a16]"
+              className="group shrink-0 w-[75vw] relative block overflow-hidden bg-zinc-900 cursor-pointer focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-[#ff4a16]"
               style={{ height: 240 }}
             >
               <Image
