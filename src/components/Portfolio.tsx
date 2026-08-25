@@ -22,41 +22,71 @@ export default function Portfolio() {
   }, [selectedProject]);
 
   return (
-    <section id="karya" className="py-20 md:py-28 bg-zinc-950">
+    <section id="karya" className="py-14 md:py-28 bg-zinc-950">
       {/* Header */}
-      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12 mb-12 md:mb-16 text-center">
-        <h2 className="text-4xl sm:text-6xl font-bold tracking-tighter text-white leading-[1.02]">
+      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12 mb-8 md:mb-16 text-center">
+        <h2 className="text-3xl sm:text-6xl font-bold tracking-tighter text-white leading-[1.02]">
           Portofolio<span className="text-[#ff4a16]">.</span>
         </h2>
-        <p className="mt-4 max-w-xl mx-auto text-sm sm:text-base text-zinc-400 leading-relaxed">
+        <p className="mt-3 sm:mt-4 max-w-xl mx-auto text-sm sm:text-base text-zinc-400 leading-relaxed">
           Dari kanopi rumah tinggal sampai custom motor.
           Setiap proyek ditangani langsung oleh Mas Danang, dari survei lokasi,
           pengelasan, sampai finishing.
         </p>
       </div>
 
-      {/* Full-bleed project wall */}
-      <div className="grid grid-cols-2 lg:grid-cols-3">
-        {PROJECTS_LIST.map((item, idx) => {
-          const wide = idx % 3 === 0;
-          return (
+      {/* ── Mobile: horizontal scroll carousel ── */}
+      <div className="lg:hidden">
+        <div
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth px-4 pb-4 -mx-4"
+        >
+          {PROJECTS_LIST.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setSelectedProject(item)}
+              aria-label={`Lihat detail ${item.title}`}
+              className="group snap-start shrink-0 w-[75vw] relative block overflow-hidden bg-zinc-900 cursor-pointer focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-[#ff4a16]"
+              style={{ height: 240 }}
+            >
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.06]"
+                sizes="75vw"
+              />
+
+              {/* Info strip */}
+              <span className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-zinc-950/95 via-zinc-950/60 to-transparent px-4 pb-3.5 pt-12 text-left">
+                <span className="block text-[10px] font-mono uppercase tracking-[0.18em] text-[#ff4a16]">
+                  {item.categoryLabel} · {item.location}
+                </span>
+                <span className="mt-1 block text-sm text-white font-extrabold leading-tight tracking-tight">
+                  {item.title}
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Desktop: grid wall ── */}
+      <div className="hidden lg:grid grid-cols-3">
+        {PROJECTS_LIST.map((item) => (
           <button
             key={item.id}
             type="button"
             onClick={() => setSelectedProject(item)}
             aria-label={`Lihat detail ${item.title}`}
-            className={`group relative block overflow-hidden bg-zinc-900 cursor-pointer focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-[#ff4a16] ${
-              wide
-                ? "col-span-2 h-[210px] sm:h-[320px] lg:col-span-1 lg:h-[240px]"
-                : "h-[160px] sm:h-[250px] lg:h-[240px]"
-            }`}
+            className="group relative block overflow-hidden bg-zinc-900 cursor-pointer h-[240px] focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-[#ff4a16]"
           >
             <Image
               src={item.image}
               alt={item.title}
               fill
               className="object-cover transition-transform duration-700 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.06]"
-              sizes="(max-width: 1024px) 50vw, 25vw"
+              sizes="25vw"
             />
 
             {/* Info strip */}
@@ -64,27 +94,22 @@ export default function Portfolio() {
               <span className="block text-[10px] font-mono uppercase tracking-[0.18em] text-[#ff4a16]">
                 {item.categoryLabel} · {item.location}
               </span>
-              <span
-                className={`mt-1 block text-white font-extrabold leading-tight tracking-tight ${
-                  wide ? "text-base sm:text-xl" : "text-sm"
-                }`}
-              >
+              <span className="mt-1 block text-white font-extrabold leading-tight tracking-tight text-xl">
                 {item.title}
               </span>
             </span>
           </button>
-          );
-        })}
+        ))}
       </div>
 
       {/* Lightbox Detail Modal */}
       {selectedProject && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-6"
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="bg-zinc-950 border border-white/15 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl"
+            className="bg-zinc-950 border border-white/15 sm:max-w-3xl w-full max-h-[92vh] sm:max-h-[90vh] overflow-y-auto relative shadow-2xl sm:rounded-none"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
@@ -102,30 +127,30 @@ export default function Portfolio() {
               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-zinc-950 to-transparent" />
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 p-1.5 bg-white/10 text-zinc-300 hover:text-white hover:bg-white/20 transition-colors cursor-pointer"
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1.5 bg-white/10 text-zinc-300 hover:text-white hover:bg-white/20 transition-colors cursor-pointer"
                 aria-label="Tutup"
               >
                 <X className="w-5 h-5" />
               </button>
-              <div className="absolute bottom-4 left-5 right-5 sm:left-7 sm:right-7">
-                <span className="text-xs font-mono font-medium px-2 py-0.5 bg-[#ff4a16] text-white">
+              <div className="absolute bottom-4 left-4 right-4 sm:left-7 sm:right-7">
+                <span className="text-[10px] sm:text-xs font-mono font-medium px-2 py-0.5 bg-[#ff4a16] text-white">
                   {selectedProject.categoryLabel} • Tahun {selectedProject.year}
                 </span>
-                <h3 className="text-xl sm:text-3xl font-bold text-white mt-3 tracking-tight">
+                <h3 className="text-lg sm:text-3xl font-bold text-white mt-2 sm:mt-3 tracking-tight">
                   {selectedProject.title}
                 </h3>
               </div>
             </div>
 
-            <div className="p-6 sm:p-7 space-y-5">
-              <p className="text-xs text-zinc-500 font-mono uppercase tracking-wider">
+            <div className="p-4 sm:p-7 space-y-4 sm:space-y-5">
+              <p className="text-[11px] sm:text-xs text-zinc-500 font-mono uppercase tracking-wider">
                 Lokasi Pengerjaan:{" "}
                 <span className="text-zinc-300">{selectedProject.location}</span>
               </p>
 
               <div className="space-y-3 text-sm text-zinc-300">
                 <p className="leading-relaxed">{selectedProject.description}</p>
-                <div className="p-4 bg-white/5 border-l-2 border-[#ff4a16] text-xs font-mono space-y-1.5">
+                <div className="p-3 sm:p-4 bg-white/5 border-l-2 border-[#ff4a16] text-xs font-mono space-y-1.5">
                   <p>
                     <strong className="text-white">Material:</strong>{" "}
                     {selectedProject.material}
@@ -137,7 +162,7 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="pt-3 sm:pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <span className="text-xs text-zinc-500">
                   Tertarik membuat proyek serupa?
                 </span>
