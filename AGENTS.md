@@ -1,6 +1,6 @@
 # welder
 
-Single-page Indonesian marketing site ("AndalLas · Bengkel Las Danang", `lang="id"`) built with Next.js 16 App Router + React 19 + Tailwind CSS v4. No backend: no API routes, no DB, no tests. Smooth scroll via `lenis`, icons via `lucide-react`.
+Single-page Indonesian marketing site ("Andal Las · Bengkel Las Danang", `lang="id"`) built with Next.js 16 App Router + React 19 + Tailwind CSS v4. Supabase backend for CMS, admin panel at `/admin`. Smooth scroll via `lenis`, icons via `lucide-react`.
 
 ## Commands
 
@@ -10,19 +10,50 @@ Single-page Indonesian marketing site ("AndalLas · Bengkel Las Danang", `lang="
 
 ## Structure
 
-- One route: everything renders via `src/app/page.tsx` composing components from `src/components/`.
-- All site copy/data lives in `src/data/welderData.ts` (PROFILE, services, projects, testimonials, FAQ). Edit content there, not in components.
-- All components are client components (`"use client"`).
+- **Main page**: `src/app/page.tsx` composing components from `src/components/`.
+- **Admin panel**: `/admin` — login with password, CRUD for all site content.
+  - Layout: `src/app/admin/dashboard/layout.tsx` (sidebar desktop, bottom nav mobile)
+  - Pages: profile, hero, services, projects, testimonials, FAQ
+  - Shared components: `src/components/admin/` (ImageUpload, ConfirmDialog)
+- **API routes**: `src/app/api/auth/login/` (password auth), `src/app/api/upload/` (image upload to Supabase Storage)
+- **Calculator**: `/kalkulator` — cost estimator page
+- **Data layer**: `src/lib/useSupabaseData.ts` (React hooks fetching from Supabase with dummy data fallbacks)
+- **Supabase**: `src/lib/supabase.ts` (client + types), `supabase-schema.sql` (full schema + seed data)
+- **Auth**: `src/middleware.ts` (route protection), `src/lib/admin-auth.ts` (cookie session)
+- **Placeholders**: `src/lib/placeholders.ts` (default image URLs)
+- **Loading screen**: `src/components/LoadingScreen.tsx` (logo reveal with sparks, shows on every reload)
+- All components are client components (`"use client"`). `layout.tsx` is the only server component.
 - Path alias `@/*` → `src/*`.
 
 ## Gotchas
 
 - Tailwind v4 via PostCSS — no `tailwind.config.js`. Theme customization goes in CSS (`@theme`) in `src/app/globals.css`.
-- Remote `<Image>` hosts are whitelisted in `next.config.ts` (`images.unsplash.com` only). Adding another host requires updating `remotePatterns`.
+- Remote `<Image>` hosts whitelisted in `next.config.ts`: `images.unsplash.com`, `media.istockphoto.com`, `bqrmbqgcidgotsvprwue.supabase.co`. Adding another host requires updating `remotePatterns`.
 - All user-facing copy is Indonesian; match that language.
 - `CLAUDE.md` just includes this file — keep both in sync by only maintaining AGENTS.md.
-- `layout.tsx` is the only server component; everything else is `"use client"`. Lenis smooth scroll is set up in `SmoothScroll.tsx` (respects `prefers-reduced-motion`).
-- `welderData.ts` exports typed interfaces (`ProjectItem`, `ServiceItem`, `Testimonial`, etc.). When adding/editing data entries, match the existing shape.
+- `welderData.ts` still exists as seed/reference but frontend components fetch from Supabase hooks now.
+- Middleware runs in Edge Runtime — no Node.js modules (e.g., no `crypto`). Use Web APIs only.
+- `sessionStorage` not used for loading screen — it shows on every reload/hard refresh by design.
+- Image uploads go to Supabase Storage bucket `images`. Empty image fields fall back to placeholder Unsplash URLs.
+
+## Environment Variables (.env.local)
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://bqrmbqgcidgotsvprwue.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ADMIN_PASSWORD=andalas2024
+```
+
+For Vercel: set these in Settings → Environment Variables, then redeploy.
+
+## Database Setup
+
+Run `supabase-schema.sql` in Supabase SQL Editor. Creates all tables (profile, settings, services, projects, testimonials, FAQs) with seed data and RLS policies. Safe to re-run (uses `ON CONFLICT DO UPDATE`).
+
+## Supabase Project
+
+- URL: `https://bqrmbqgcidgotsvprwue.supabase.co`
+- Bucket: `images` (public, for uploaded images)
 
 <!-- BEGIN:nextjs-agent-rules -->
 
