@@ -78,7 +78,7 @@ export default function Portfolio() {
       </div>
 
       {/* ── Mobile: auto-scroll carousel ── */}
-      <div className="lg:hidden">
+      <div className="lg:hidden overflow-hidden">
         <div
           ref={scrollRef}
           className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-4 -mx-4"

@@ -21,6 +21,8 @@ Single-page Indonesian marketing site ("AndalLas · Bengkel Las Danang", `lang="
 - Remote `<Image>` hosts are whitelisted in `next.config.ts` (`images.unsplash.com` only). Adding another host requires updating `remotePatterns`.
 - All user-facing copy is Indonesian; match that language.
 - `CLAUDE.md` just includes this file — keep both in sync by only maintaining AGENTS.md.
+- `layout.tsx` is the only server component; everything else is `"use client"`. Lenis smooth scroll is set up in `SmoothScroll.tsx` (respects `prefers-reduced-motion`).
+- `welderData.ts` exports typed interfaces (`ProjectItem`, `ServiceItem`, `Testimonial`, etc.). When adding/editing data entries, match the existing shape.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
