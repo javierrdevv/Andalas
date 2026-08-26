@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowLeft } from "lucide-react";
 
@@ -36,8 +37,8 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-6 h-6 text-white" />
+          <div className="w-14 h-14 bg-slate-900 rounded-xl flex items-center justify-center mx-auto mb-4 overflow-hidden">
+            <Image src="/favicon.png" alt="Andal Las" width={40} height={40} className="object-contain" />
           </div>
           <h1 className="text-xl font-bold text-slate-900">Admin Panel</h1>
           <p className="text-sm text-slate-500 mt-1">Andal Las · Masukkan password untuk masuk</p>

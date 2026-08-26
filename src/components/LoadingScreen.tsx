@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 function makeSparks() {
   return Array.from({ length: 18 }, (_, i) => ({
@@ -62,6 +63,15 @@ export default function LoadingScreen() {
       </div>
 
       <div className="relative z-10 text-center select-none">
+        <Image
+          src="/favicon.png"
+          alt="Andal Las"
+          width={80}
+          height={80}
+          className="mx-auto mb-3 object-contain opacity-0 animate-charReveal"
+          style={{ animationDelay: "0.4s" }}
+          priority
+        />
         <h1 className="text-5xl sm:text-7xl font-black tracking-tighter text-white uppercase leading-none">
           {"ANDAL".split("").map((char, i) => (
             <span

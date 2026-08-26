@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import NextImage from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   User,
@@ -42,9 +43,12 @@ export default function DashboardLayout({
     <div className="min-h-screen bg-slate-50">
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:flex-col lg:w-60 lg:fixed lg:inset-y-0 bg-white border-r border-slate-200">
-        <div className="px-5 py-5 border-b border-slate-100">
-          <p className="text-sm font-bold text-slate-900">Andal Las</p>
-          <p className="text-[11px] text-slate-500 mt-0.5">Admin Panel</p>
+        <div className="px-5 py-5 border-b border-slate-100 flex items-center gap-2.5">
+          <NextImage src="/favicon.png" alt="Andal Las" width={28} height={28} className="rounded-md object-contain" />
+          <div>
+            <p className="text-sm font-bold text-slate-900">Andal Las</p>
+            <p className="text-[11px] text-slate-500 mt-0.5">Admin Panel</p>
+          </div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
           {NAV_ITEMS.map((item) => {

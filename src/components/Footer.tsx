@@ -16,8 +16,7 @@ export default function Footer() {
               {profile.brand}
             </p>
             <p className="mt-1 leading-relaxed">
-              {profile.role}. Melayani Kaliwungu, Kendal, Kota Semarang &
-              sekitarnya, bisa di workshop atau dipanggil ke lokasi.
+              {profile.role}
             </p>
           </div>
 
@@ -42,7 +41,7 @@ export default function Footer() {
             >
               {profile.phone}
             </a>
-            <p className="mt-0.5">(Danang)</p>
+            <p className="mt-0.5">              ({profile.name})</p>
           </div>
 
           {/* Hours */}

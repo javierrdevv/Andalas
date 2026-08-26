@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import LoadingScreen from "@/components/LoadingScreen";
@@ -19,6 +20,9 @@ export const metadata: Metadata = {
     "pengecatan besi",
   ],
   authors: [{ name: "Danang" }],
+  icons: {
+    icon: "/favicon.png",
+  },
   openGraph: {
     title: "Andal Las · Bengkel Las Danang | Tukang Las Universal Semarang",
     description:

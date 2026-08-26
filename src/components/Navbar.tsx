@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X, ArrowUpRight, MapPin } from "lucide-react";
 import { useProfile } from "@/lib/useSupabaseData";
 
@@ -50,9 +51,13 @@ export default function Navbar() {
         <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-slate-900 rounded-md flex items-center justify-center font-bold text-white text-xs">
-              AL
-            </div>
+            <Image
+              src="/favicon.png"
+              alt="Andal Las"
+              width={32}
+              height={32}
+              className="rounded-md object-contain"
+            />
             <div>
               <span className="font-bold tracking-tight text-slate-900 text-base">
                 Andal Las

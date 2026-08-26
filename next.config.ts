@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "bqrmbqgcidgotsvprwue.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname: "www.shutterstock.com",
+      },
+      {
+        protocol: "https",
+        hostname: "image.shutterstock.com",
+      },
     ],
   },
 };
