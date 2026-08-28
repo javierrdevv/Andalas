@@ -75,6 +75,17 @@ create table if not exists faqs (
   sort_order int not null default 0
 );
 
+-- Calculator config (single row)
+create table if not exists calculator (
+  id uuid primary key default gen_random_uuid(),
+  projects jsonb not null default '[]'::jsonb,
+  materials jsonb not null default '[]'::jsonb,
+  install_pct numeric not null default 0.1,
+  min_install numeric not null default 500000,
+  range_low numeric not null default 0.9,
+  range_high numeric not null default 1.15
+);
+
 -- ============================================================
 -- SEED DATA
 -- ============================================================
@@ -168,6 +179,17 @@ insert into faqs (id, question, answer, sort_order) values
 on conflict (id) do update set
   question = excluded.question, answer = excluded.answer, sort_order = excluded.sort_order;
 
+-- Calculator (single row)
+insert into calculator (id, projects, materials, install_pct, min_install, range_low, range_high) values
+('00000000-0000-0000-0000-000000000002',
+'[{"id":"kanopi","name":"Kanopi / Atap Besi Custom","shortName":"Kanopi","unit":"m²","defaultQty":15,"basePrice":950000},{"id":"teralis","name":"Teralis / Pagar / Railing","shortName":"Teralis","unit":"meter","defaultQty":8,"basePrice":650000},{"id":"gerbang","name":"Gerbang / Pintu Lipat Besi","shortName":"Gerbang","unit":"unit","defaultQty":1,"basePrice":3500000},{"id":"rak","name":"Rak Besi / Furniture Besi","shortName":"Rak Besi","unit":"unit","defaultQty":1,"basePrice":1500000},{"id":"custom","name":"Custom Motor / Kendaraan","shortName":"Custom Motor","unit":"unit","defaultQty":1,"basePrice":2800000},{"id":"onsite","name":"Jasa Las Panggilan (Ke Lokasi)","shortName":"Las Panggilan","unit":"hari","defaultQty":1,"basePrice":600000}]'::jsonb,
+'[{"id":"hitam","label":"Besi Hitam","fullLabel":"Besi Hitam / Hollow Biasa","mult":0.9},{"id":"galvanis","label":"Galvanis","fullLabel":"Besi Hollow Galvanis SNI","mult":1.0},{"id":"wf","label":"Baja WF","fullLabel":"Baja WF / H-Beam SNI","mult":1.25},{"id":"sus304","label":"Stainless","fullLabel":"Stainless Steel SUS304","mult":1.6}]'::jsonb,
+0.1, 500000, 0.9, 1.15)
+on conflict (id) do update set
+  projects = excluded.projects, materials = excluded.materials,
+  install_pct = excluded.install_pct, min_install = excluded.min_install,
+  range_low = excluded.range_low, range_high = excluded.range_high;
+
 -- ============================================================
 -- RLS (Row Level Security)
 -- ============================================================
@@ -178,6 +200,7 @@ alter table services enable row level security;
 alter table projects enable row level security;
 alter table testimonials enable row level security;
 alter table faqs enable row level security;
+alter table calculator enable row level security;
 
 drop policy if exists "Public read profile" on profile;
 drop policy if exists "Public read settings" on settings;
@@ -185,6 +208,7 @@ drop policy if exists "Public read services" on services;
 drop policy if exists "Public read projects" on projects;
 drop policy if exists "Public read testimonials" on testimonials;
 drop policy if exists "Public read faqs" on faqs;
+drop policy if exists "Public read calculator" on calculator;
 
 drop policy if exists "Anon all profile" on profile;
 drop policy if exists "Anon all settings" on settings;
@@ -192,6 +216,7 @@ drop policy if exists "Anon all services" on services;
 drop policy if exists "Anon all projects" on projects;
 drop policy if exists "Anon all testimonials" on testimonials;
 drop policy if exists "Anon all faqs" on faqs;
+drop policy if exists "Anon all calculator" on calculator;
 
 create policy "Public read profile" on profile for select using (true);
 create policy "Public read settings" on settings for select using (true);
@@ -199,6 +224,7 @@ create policy "Public read services" on services for select using (true);
 create policy "Public read projects" on projects for select using (true);
 create policy "Public read testimonials" on testimonials for select using (true);
 create policy "Public read faqs" on faqs for select using (true);
+create policy "Public read calculator" on calculator for select using (true);
 
 create policy "Anon all profile" on profile for all using (true);
 create policy "Anon all settings" on settings for all using (true);
@@ -206,6 +232,7 @@ create policy "Anon all services" on services for all using (true);
 create policy "Anon all projects" on projects for all using (true);
 create policy "Anon all testimonials" on testimonials for all using (true);
 create policy "Anon all faqs" on faqs for all using (true);
+create policy "Anon all calculator" on calculator for all using (true);
 
 -- Storage
 insert into storage.buckets (id, name, public) values ('images', 'images', true) on conflict (id) do nothing;

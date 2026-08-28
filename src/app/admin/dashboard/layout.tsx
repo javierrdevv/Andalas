@@ -11,6 +11,7 @@ import {
   FolderOpen,
   MessageSquare,
   HelpCircle,
+  Calculator,
   LogOut,
   LayoutDashboard,
   ArrowLeft,
@@ -24,6 +25,7 @@ const NAV_ITEMS = [
   { href: "/admin/dashboard/projects", label: "Portofolio", icon: FolderOpen },
   { href: "/admin/dashboard/testimonials", label: "Testimoni", icon: MessageSquare },
   { href: "/admin/dashboard/faq", label: "FAQ", icon: HelpCircle },
+  { href: "/admin/dashboard/calculator", label: "Kalkulator", icon: Calculator },
 ];
 
 export default function DashboardLayout({
@@ -105,7 +107,7 @@ export default function DashboardLayout({
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 flex justify-around py-2 px-1">
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 flex items-stretch overflow-x-auto py-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {NAV_ITEMS.map((item) => {
           const active =
             item.href === "/admin/dashboard"
@@ -115,7 +117,7 @@ export default function DashboardLayout({
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 text-[10px] font-medium transition-colors ${
+              className={`flex flex-col items-center justify-center gap-0.5 px-3 py-1.5 text-[10px] font-medium whitespace-nowrap transition-colors ${
                 active ? "text-[#ff4a16]" : "text-slate-500"
               }`}
             >

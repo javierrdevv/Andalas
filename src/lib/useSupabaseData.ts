@@ -68,6 +68,52 @@ export type FaqData = {
   sort_order: number;
 };
 
+export type CalculatorProject = {
+  id: string;
+  name: string;
+  shortName: string;
+  unit: string;
+  defaultQty: number;
+  basePrice: number;
+};
+
+export type CalculatorMaterial = {
+  id: string;
+  label: string;
+  fullLabel: string;
+  mult: number;
+};
+
+export type CalculatorData = {
+  projects: CalculatorProject[];
+  materials: CalculatorMaterial[];
+  install_pct: number;
+  min_install: number;
+  range_low: number;
+  range_high: number;
+};
+
+const DEFAULT_CALCULATOR: CalculatorData = {
+  projects: [
+    { id: "kanopi", name: "Kanopi / Atap Besi Custom", shortName: "Kanopi", unit: "m²", defaultQty: 15, basePrice: 950000 },
+    { id: "teralis", name: "Teralis / Pagar / Railing", shortName: "Teralis", unit: "meter", defaultQty: 8, basePrice: 650000 },
+    { id: "gerbang", name: "Gerbang / Pintu Lipat Besi", shortName: "Gerbang", unit: "unit", defaultQty: 1, basePrice: 3500000 },
+    { id: "rak", name: "Rak Besi / Furniture Besi", shortName: "Rak Besi", unit: "unit", defaultQty: 1, basePrice: 1500000 },
+    { id: "custom", name: "Custom Motor / Kendaraan", shortName: "Custom Motor", unit: "unit", defaultQty: 1, basePrice: 2800000 },
+    { id: "onsite", name: "Jasa Las Panggilan (Ke Lokasi)", shortName: "Las Panggilan", unit: "hari", defaultQty: 1, basePrice: 600000 },
+  ],
+  materials: [
+    { id: "hitam", label: "Besi Hitam", fullLabel: "Besi Hitam / Hollow Biasa", mult: 0.9 },
+    { id: "galvanis", label: "Galvanis", fullLabel: "Besi Hollow Galvanis SNI", mult: 1.0 },
+    { id: "wf", label: "Baja WF", fullLabel: "Baja WF / H-Beam SNI", mult: 1.25 },
+    { id: "sus304", label: "Stainless", fullLabel: "Stainless Steel SUS304", mult: 1.6 },
+  ],
+  install_pct: 0.1,
+  min_install: 500000,
+  range_low: 0.9,
+  range_high: 1.15,
+};
+
 // Default fallbacks from welderData.ts
 const DEFAULT_PROFILE: ProfileData = {
   name: "Danang",
@@ -362,4 +408,25 @@ export function useFaqs() {
   }, []);
 
   return faqs;
+}
+
+export function useCalculator() {
+  const [calc, setCalc] = useState<CalculatorData>(DEFAULT_CALCULATOR);
+
+  useEffect(() => {
+    supabase.from("calculator").select("*").single().then(({ data, error }) => {
+      if (data && !error) {
+        setCalc({
+          projects: (data.projects as CalculatorProject[]) || [],
+          materials: (data.materials as CalculatorMaterial[]) || [],
+          install_pct: Number(data.install_pct),
+          min_install: Number(data.min_install),
+          range_low: Number(data.range_low),
+          range_high: Number(data.range_high),
+        });
+      }
+    });
+  }, []);
+
+  return calc;
 }

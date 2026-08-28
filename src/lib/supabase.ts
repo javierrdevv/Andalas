@@ -76,6 +76,17 @@ export type Database = {
           sort_order: number;
         };
       };
+      calculator: {
+        Row: {
+          id: string;
+          projects: unknown;
+          materials: unknown;
+          install_pct: number;
+          min_install: number;
+          range_low: number;
+          range_high: number;
+        };
+      };
     };
   };
 };

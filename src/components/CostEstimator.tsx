@@ -2,35 +2,15 @@
 
 import React, { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
-import { useProfile } from "@/lib/useSupabaseData";
-
-interface ProjectOption {
-  id: string;
-  name: string;
-  shortName: string;
-  unit: string;
-  defaultQty: number;
-  basePrice: number;
-}
-
-const PROJECTS: ProjectOption[] = [
-  { id: "kanopi", name: "Kanopi / Atap Besi Custom", shortName: "Kanopi", unit: "m²", defaultQty: 15, basePrice: 950000 },
-  { id: "teralis", name: "Teralis / Pagar / Railing", shortName: "Teralis", unit: "meter", defaultQty: 8, basePrice: 650000 },
-  { id: "gerbang", name: "Gerbang / Pintu Lipat Besi", shortName: "Gerbang", unit: "unit", defaultQty: 1, basePrice: 3500000 },
-  { id: "rak", name: "Rak Besi / Furniture Besi", shortName: "Rak Besi", unit: "unit", defaultQty: 1, basePrice: 1500000 },
-  { id: "custom", name: "Custom Motor / Kendaraan", shortName: "Custom Motor", unit: "unit", defaultQty: 1, basePrice: 2800000 },
-  { id: "onsite", name: "Jasa Las Panggilan (Ke Lokasi)", shortName: "Las Panggilan", unit: "hari", defaultQty: 1, basePrice: 600000 },
-];
-
-const MATERIALS = [
-  { id: "hitam", label: "Besi Hitam", fullLabel: "Besi Hitam / Hollow Biasa", mult: 0.9 },
-  { id: "galvanis", label: "Galvanis", fullLabel: "Besi Hollow Galvanis SNI", mult: 1.0 },
-  { id: "wf", label: "Baja WF", fullLabel: "Baja WF / H-Beam SNI", mult: 1.25 },
-  { id: "sus304", label: "Stainless", fullLabel: "Stainless Steel SUS304", mult: 1.6 },
-];
+import { useProfile, useCalculator } from "@/lib/useSupabaseData";
 
 export default function CostEstimator() {
   const profile = useProfile();
+  const calc = useCalculator();
+
+  const PROJECTS = calc.projects;
+  const MATERIALS = calc.materials;
+
   const [selectedProject, setSelectedProject] = useState("kanopi");
   const [qty, setQty] = useState(15);
   const [material, setMaterial] = useState("galvanis");
@@ -39,11 +19,11 @@ export default function CostEstimator() {
   const curProject = PROJECTS.find((p) => p.id === selectedProject) || PROJECTS[0];
   const curMaterial = MATERIALS.find((m) => m.id === material) || MATERIALS[0];
 
-  const baseCost = curProject.basePrice * qty * curMaterial.mult;
-  const installCost = withInstall ? Math.max(500000, baseCost * 0.1) : 0;
+  const baseCost = curProject?.basePrice * qty * curMaterial?.mult;
+  const installCost = withInstall ? Math.max(calc.min_install, baseCost * calc.install_pct) : 0;
   const total = Math.round(baseCost + installCost);
-  const low = Math.round(total * 0.9);
-  const high = Math.round(total * 1.15);
+  const low = Math.round(total * calc.range_low);
+  const high = Math.round(total * calc.range_high);
 
   const formatRupiah = (num: number) => {
     return new Intl.NumberFormat("id-ID", {

@@ -42,14 +42,14 @@ export default function Testimonials() {
           {displayItems.map((item) => (
             <div
               key={item.id}
-              className="shrink-0 snap-center w-[85vw] max-w-[340px] border border-slate-200 bg-white"
+              className="shrink-0 snap-center w-[85vw] max-w-[340px] border border-slate-200 bg-white flex flex-col"
             >
-              <div className="px-5 pt-5 pb-4">
-                <p className="text-sm text-slate-700 leading-relaxed italic">
+              <div className="px-5 pt-5 pb-4 h-40 flex items-start">
+                <p className="text-sm text-slate-700 leading-relaxed italic line-clamp-5">
                   &ldquo;{item.comment}&rdquo;
                 </p>
               </div>
-              <div className="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3">
+              <div className="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3 mt-auto">
                 <div>
                   <p className="text-sm font-bold text-slate-900">{item.name}</p>
                   <p className="text-[11px] text-slate-500 mt-0.5">

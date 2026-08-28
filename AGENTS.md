@@ -13,28 +13,29 @@ Single-page Indonesian marketing site ("Andal Las · Bengkel Las Danang", `lang=
 - **Main page**: `src/app/page.tsx` composing components from `src/components/`.
 - **Admin panel**: `/admin` — login with password, CRUD for all site content.
   - Layout: `src/app/admin/dashboard/layout.tsx` (sidebar desktop, bottom nav mobile)
-  - Pages: profile, hero, services, projects, testimonials, FAQ
+  - Pages: profile, hero, services, projects, testimonials, FAQ, calculator
   - Shared components: `src/components/admin/` (ImageUpload, ConfirmDialog)
 - **API routes**: `src/app/api/auth/login/` (password auth), `src/app/api/upload/` (image upload to Supabase Storage)
-- **Calculator**: `/kalkulator` — cost estimator page
+- **Calculator**: `/kalkulator` — cost estimator page. Data (projects, materials, formula) is admin-editable via a single-row `calculator` table; component uses `useCalculator()` hook with hardcoded fallbacks.
 - **Data layer**: `src/lib/useSupabaseData.ts` (React hooks fetching from Supabase with dummy data fallbacks)
 - **Supabase**: `src/lib/supabase.ts` (client + types), `supabase-schema.sql` (full schema + seed data)
 - **Auth**: `src/middleware.ts` (route protection), `src/lib/admin-auth.ts` (cookie session)
 - **Placeholders**: `src/lib/placeholders.ts` (default image URLs)
 - **Loading screen**: `src/components/LoadingScreen.tsx` (logo reveal with sparks, shows on every reload)
-- All components are client components (`"use client"`). `layout.tsx` is the only server component.
+- All components are client components (`"use client"`); only the `layout.tsx` files are server components.
 - Path alias `@/*` → `src/*`.
 
 ## Gotchas
 
 - Tailwind v4 via PostCSS — no `tailwind.config.js`. Theme customization goes in CSS (`@theme`) in `src/app/globals.css`.
-- Remote `<Image>` hosts whitelisted in `next.config.ts`: `images.unsplash.com`, `media.istockphoto.com`, `bqrmbqgcidgotsvprwue.supabase.co`. Adding another host requires updating `remotePatterns`.
+- Remote `<Image>` hosts whitelisted in `next.config.ts`: `images.unsplash.com`, `media.istockphoto.com`, `bqrmbqgcidgotsvprwue.supabase.co`, `www.shutterstock.com`, `image.shutterstock.com`. Adding another host requires updating `remotePatterns`.
 - All user-facing copy is Indonesian; match that language.
 - `CLAUDE.md` just includes this file — keep both in sync by only maintaining AGENTS.md.
-- `welderData.ts` still exists as seed/reference but frontend components fetch from Supabase hooks now.
+- Static data lives in `src/data/welderData.ts`. It's both seed/reference AND still imported directly by some components (`FAQ.tsx`, `Testimonials.tsx`, `WeldInspector.tsx` use `FAQS_LIST`, `TESTIMONIALS_LIST`, `WELD_COMPARISON`). Other components fetch from Supabase via the hooks. Not everything routes through Supabase — check the component before assuming.
 - Middleware runs in Edge Runtime — no Node.js modules (e.g., no `crypto`). Use Web APIs only.
 - `sessionStorage` not used for loading screen — it shows on every reload/hard refresh by design.
 - Image uploads go to Supabase Storage bucket `images`. Empty image fields fall back to placeholder Unsplash URLs.
+- `ImageUpload` (shared admin component) crops local uploads client-side via `react-easy-crop` before upload. Aspect ratio is fixed per site format via the `placeholder` prop (`ASPECT_RATIOS` map in the component).
 
 ## Environment Variables (.env.local)
 
@@ -48,7 +49,7 @@ For Vercel: set these in Settings → Environment Variables, then redeploy.
 
 ## Database Setup
 
-Run `supabase-schema.sql` in Supabase SQL Editor. Creates all tables (profile, settings, services, projects, testimonials, FAQs) with seed data and RLS policies. Safe to re-run (uses `ON CONFLICT DO UPDATE`).
+Run `supabase-schema.sql` in Supabase SQL Editor. Creates all tables (profile, settings, services, projects, testimonials, FAQs, calculator) with seed data and RLS policies. Safe to re-run (uses `ON CONFLICT DO UPDATE`).
 
 ## Supabase Project
 
